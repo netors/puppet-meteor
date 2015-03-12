@@ -35,7 +35,50 @@
 #
 # Copyright 2015 Your name here, unless otherwise noted.
 #
-class meteor {
+class meteor (
+  $version = "1.0.3.2", # Default version to use
+  $meteorpassword = "meteor",
+  $meteorusername = "meteor",
+) {
 
+## Pick the right architecture
+  if $kernel == "Linux"{
+    if $architecture == "x86"{
+      $platform = "os.linux.x86_32"
+    } else {
+      $platform = "os.linux.x86_64"
+    }
+  }
+## Create the meteor user
+  user { $meteorusername:
+    password   => $meteorpassword,
+    managehome => true
+  }
 
+## Keep meteor source on the system.. it's small...
+## And including wget - make sure maestrodev/wget installed
+  include wget
+  wget::fetch { "get_meteor_bootstrap":
+    source      => "https://d3sqy0vbqsdhku.cloudfront.net/packages-bootstrap/${version}/meteor-bootstrap-${platform}.tar.gz",
+    destination => "/usr/share/meteor-${version}.tar.gz",
+    timeout     => 0,
+    verbose     => false,
+  }
+
+## Extract meteor into the right environment
+
+  exec { "extract_meteor":
+    command  => "/bin/tar zxf /usr/share/meteor-${version}.tar.gz -C /home/${meteorusername}",
+    creates  => "/home/${meteorusername}/.meteor",
+    require  => [Wget::Fetch['get_meteor_bootstrap'],User[$meteorusername]]
+  }
+  exec { "chown_meteor":
+    command => "/bin/chown -R ${meteorusername}.${meteorusername} /home/${meteorusername}",
+    require => Exec['extract_meteor']
+  }
+  file { "/usr/bin/meteor":
+    ensure => link,
+    mode   => "0777",
+    target => "/home/meteor/.meteor/packages/meteor-tool/1.0.41/meteor-tool-${platform}/scripts/admin/launch-meteor"
+  }
 }

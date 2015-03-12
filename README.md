@@ -15,65 +15,79 @@
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+Installs [Meteor](http://www.meteor.com) onto Linux systems...
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
+Meteor is a new and exciting full stack javascript platform, that simplifies and shortcuts development efforts, yet it's
+a bit confusing on how to create a real production instance of the service.  This puppet module aims to solve that problem.
 
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
+It's designed to install meteor into a dedicated user account named "meteor", and then make it globally available via a
+symlink to the rest of the users(current design requirement of meteor), and when they run meteor for the first time, it
+will install a copy of meteor to their home directory(~/.meteor).  Then depending on Dev or Prod environment setting,
+install the supporting services/packages/configurations to allow development, or servicing of your meteor apps.
+
+Meteor apps are designed to run either completely by themselves, or via
+
 
 ## Setup
 
 ### What meteor affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
+* Creates a user named meteor to own the system meteor installation
+* Downloads the desired meteor version to /usr/share/meteor.tar.gz
+* Extracts meteor to /home/$meteorusername/.meteor
+* Creates symlink of /usr/bin/meteor to /home/meteor/.meteor/packages/meteor-tool/1.0.41/meteor-tool-${platform}/scripts/admin/launch-meteor
+* Then one can simply run /usr/bin/meteor and meteor will auto install the distribution to your home dir ( ~/.meteor )
 
 ### Setup Requirements **OPTIONAL**
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
+Depends on maestrodev/wget for downloading the meteor installer.
 
 ### Beginning with meteor
 
-The very basic steps needed for a user to get the module up and running.
+Simply install the module to your puppet module path
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+```ruby
+puppet module install vormetriclabs-meteor
+```
+
+or in Puppetfile/r10k/librarian-puppet
+
+```ruby
+mod "vormetriclabs-meteor"
+```
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+Just install it...
+```ruby
+include meteor
+```
+
+
 
 ## Reference
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+To override version change the version parameter.
+```ruby
+class {"meteor":
+   version =>  "1.0.3.2"
+}
+```
+
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+Only tested on Ubuntu 12.04 and 14.04 32/64bits, but should work on any 32/64 bit Linux
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
+There is a Vagrantfile present to test out the module.  Just "vagrant up" and it should build and install meteor on the guest OS.
+
+It does require [vagrant-librarian-puppet](https://github.com/mhahn/vagrant-librarian-puppet), if you are using Windows
+you may need to use our fork until the Pull Request to fix the facter issue is merged.  [vormetriclabs/vagrant-librarian-puppet](https://github.com/vormetriclabs/vagrant-librarian-puppet)
 
 ## Release Notes/Contributors/Etc **Optional**
 
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
+Feel free to contribute or submit Pull Requests

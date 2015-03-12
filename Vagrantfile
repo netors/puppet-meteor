@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/precise32"
   config.vm.hostname = "meteor"
 
   # Disable automatic box update checking. If you disable this, then
@@ -37,16 +37,16 @@ Vagrant.configure(2) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  # config.vm.synced_folder "../", "/vagrant_data"
+  config.vm.synced_folder "../", "/puppet_manifests"
   config.librarian_puppet.puppetfile_dir = "vagrant_puppet"
   # placeholder_filename defaults to .PLACEHOLDER
   config.librarian_puppet.placeholder_filename = ".MYPLACEHOLDER"
   config.librarian_puppet.use_v1_api = '1' # Check https://github.com/rodjek/librarian-puppet#how-to-use
   config.librarian_puppet.destruct = false # Check https://github.com/rodjek/librarian-p
   config.vm.provision "puppet" do |puppet|
-    puppet.manifests_path = "manifests"
+    puppet.manifests_path = "tests"
     puppet.manifest_file = "init.pp"
-    puppet.module_path = "vagrant_puppet/modules"
+    puppet.module_path = ["vagrant_puppet/modules",".."]
   end
 
 end

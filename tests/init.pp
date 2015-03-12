@@ -9,4 +9,8 @@
 # Learn more about module testing here:
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
-include meteor
+#include meteor
+
+class {"meteor":
+  version => "1.0.3.1"
+}
