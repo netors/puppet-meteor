@@ -1,0 +1,14 @@
+{
+  "name": "vormetriclabs-meteor",
+  "version": "0.1.0",
+  "author": "vormetriclabs",
+  "summary": "Module to install and configure a meteor stack.  Both Dev and Prod configurations.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/vormetriclabs/puppet-meteor.git",
+  "project_page": "https://github.com/vormetriclabs/puppet-meteor",
+  "issues_url": "https://github.com/vormetriclabs/puppet-meteor/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
+
