@@ -66,7 +66,7 @@ include meteor
 
 ## Reference
 
-To override version change the version parameter.
+To use it as a class...
 ```ruby
 class {"meteor":
 
