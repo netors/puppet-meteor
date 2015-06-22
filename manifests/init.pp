@@ -50,6 +50,12 @@ class meteor (
     command => "/usr/bin/curl https://install.meteor.com --output /usr/share/install_meteor.sh",
     creates => "/usr/share/install_meteor.sh"
   }->
+  file { "/usr/share/install_meteor.sh":
+    ensure => present,
+    mode   => 755,
+    owner  => "root",
+    group  => "root"
+  }->
   exec { "install meteor":
     command => "/bin/bash /usr/share/install_meteor.sh",
     user    => "root",
