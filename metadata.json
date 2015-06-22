@@ -1,6 +1,6 @@
 {
   "name": "vormetriclabs-meteor",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "vormetriclabs",
   "summary": "Module to install and configure a meteor stack.  Both Dev and Prod configurations.",
   "license": "Apache-2.0",
