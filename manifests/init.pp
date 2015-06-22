@@ -59,5 +59,6 @@ class meteor (
   exec { "install meteor":
     command => "/bin/bash /usr/share/install_meteor.sh",
     user    => "root",
+    environment => "HOME=/root"
   }
 }
