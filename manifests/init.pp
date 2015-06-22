@@ -46,8 +46,12 @@ class meteor (
   package { "curl":
     ensure => "present"
   }->
+  exec { "download meteor installer":
+    command => "/usr/bin/curl https://install.meteor.com --output /usr/share/install_meteor.sh",
+    creates => "/usr/share/install_meteor.sh"
+  }->
   exec { "install meteor":
-    command => "/usr/bin/curl https://install.meteor.com/ | sh",
-    creates => "/root/.meteor"
+    command => "/bin/bash /usr/share/install_meteor.sh",
+    user    => "root",
   }
 }
