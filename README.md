@@ -40,9 +40,6 @@ Meteor apps are designed to run either completely by themselves, or via
 * Creates symlink of /usr/bin/meteor to /home/meteor/.meteor/packages/meteor-tool/1.0.41/meteor-tool-${platform}/scripts/admin/launch-meteor
 * Then one can simply run /usr/bin/meteor and meteor will auto install the distribution to your home dir ( ~/.meteor )
 
-### Setup Requirements **OPTIONAL**
-
-Depends on maestrodev/wget for downloading the meteor installer.
 
 ### Beginning with meteor
 
@@ -72,7 +69,7 @@ include meteor
 To override version change the version parameter.
 ```ruby
 class {"meteor":
-   version =>  "1.0.3.2"
+
 }
 ```
 
@@ -83,7 +80,10 @@ Only tested on Ubuntu 12.04 and 14.04 32/64bits, but should work on any 32/64 bi
 
 ## Development
 
-There is a Vagrantfile present to test out the module.  Just "vagrant up" and it should build and install meteor on the guest OS.
+There is a Vagrantfile present to test out the module.  Just "vagrant up" and it should build and install meteor on the guest OS.  However there are 2 prereqs to "vagrant up" successfully.
+
+- You'll need to install vagrant-librarian-puppet to your vagrant installation - https://github.com/mhahn/vagrant-librarian-puppet
+- You'll need to create an empty folder in the project folder called "modules"  it's a silly bug, that we'll get to someday :)
 
 It does require [vagrant-librarian-puppet](https://github.com/mhahn/vagrant-librarian-puppet), if you are using Windows
 you may need to use our fork until the Pull Request to fix the facter issue is merged.  [vormetriclabs/vagrant-librarian-puppet](https://github.com/vormetriclabs/vagrant-librarian-puppet)
