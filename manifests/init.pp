@@ -35,30 +35,14 @@
 #
 # Copyright 2015 Vormetric Inc.
 #
-class meteor (
+class meteor  (
+  $install_mongo = $meteor::params::install_mongo,
+  $user = "root"
+) inherits meteor::params {
 
-) {
 
-
-## Keep meteor source on the system.. it's small...
-## And including wget - make sure maestrodev/wget installed
-
-  package { "curl":
-    ensure => "present"
-  }->
-  exec { "download meteor installer":
-    command => "/usr/bin/curl https://install.meteor.com --output /usr/share/install_meteor.sh",
-    creates => "/usr/share/install_meteor.sh"
-  }->
-  file { "/usr/share/install_meteor.sh":
-    ensure => present,
-    mode   => 755,
-    owner  => "root",
-    group  => "root"
-  }->
-  exec { "install meteor":
-    command => "/bin/bash /usr/share/install_meteor.sh",
-    user    => "root",
-    environment => "HOME=/root"
+  class { "meteor::install":
+    install_mongo => $install_mongo
   }
+
 }

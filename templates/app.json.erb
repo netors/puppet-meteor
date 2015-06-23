@@ -1,0 +1,15 @@
+{
+    "apps": [
+        {
+            "name": "<%= @app_name %>",
+            "script": "./main.js",
+            "log_date_format": "YYYY-MM-DD",
+            "exec_mode": "fork_mode",
+            "env": {
+                "PORT": <%= @app_port %>,
+                "MONGO_URL": "<%= @my_mongo_url %>",
+                "ROOT_URL": "<%= @app_root_url%>"
+            }
+        }
+    ]
+}

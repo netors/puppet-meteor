@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/precise32"
+  config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet"
   config.vm.hostname = "meteor"
 
   # Disable automatic box update checking. If you disable this, then
@@ -48,6 +48,7 @@ Vagrant.configure(2) do |config|
     puppet.manifests_path = "tests"
     puppet.manifest_file = "init.pp"
     puppet.module_path = ["modules",".."]
+
   end
 
 end

@@ -22,23 +22,19 @@ Installs [Meteor](http://www.meteor.com) onto Linux systems...
 Meteor is a new and exciting full stack javascript platform, that simplifies and shortcuts development efforts, yet it's
 a bit confusing on how to create a real production instance of the service.  This puppet module aims to solve that problem.
 
-It's designed to install meteor into a dedicated user account named "meteor", and then make it globally available via a
-symlink to the rest of the users(current design requirement of meteor), and when they run meteor for the first time, it
-will install a copy of meteor to their home directory(~/.meteor).  Then depending on Dev or Prod environment setting,
-install the supporting services/packages/configurations to allow development, or servicing of your meteor apps.
+It's designed to install meteor for the system, and selected user (root by default).  Also it can be used to install 
+MongoDB, Nginx, and PM2 for a production environment.  It's currently HTTP only via a reverse proxy.
 
-Meteor apps are designed to run either completely by themselves, or via
+Installing meteor apps requires the orginal source files, and it then "builds" them into native node.js applications for 
+hosting in PM2, with a nginx proxy.  
 
 
 ## Setup
 
 ### What meteor affects
 
-* Creates a user named meteor to own the system meteor installation
-* Downloads the desired meteor version to /usr/share/meteor.tar.gz
-* Extracts meteor to /home/$meteorusername/.meteor
-* Creates symlink of /usr/bin/meteor to /home/meteor/.meteor/packages/meteor-tool/1.0.41/meteor-tool-${platform}/scripts/admin/launch-meteor
-* Then one can simply run /usr/bin/meteor and meteor will auto install the distribution to your home dir ( ~/.meteor )
+* Installs meteor systemwide
+* Can be used to host production versions of a meteor app
 
 
 ### Beginning with meteor
@@ -57,11 +53,17 @@ mod "vormetriclabs-meteor"
 
 ## Usage
 
-Just install it...
+Just install it as root
 ```ruby
 include meteor
 ```
 
+Installs it as a non-root user
+```ruby
+class {"meteor":
+    user => "meteor"
+}
+```
 
 
 ## Reference
@@ -70,6 +72,20 @@ To use it as a class...
 ```ruby
 class {"meteor":
 
+}
+```
+
+Host a meteor application
+```ruby
+class {"meteor":}->
+class { "meteor::app":
+  app_name       => "simple-todos", # Application Name
+  app_dir        => "/tmp/app_dir",  # Where the application bundle will be deployed/hosted
+  app_root_url   => "http://simple-todos", # Actual URL for the application
+  app_vhost_name => "simple-todos",  # Host name for nginx vhost setting
+  from_source    => true,  # your application source is hosted in a git repo or not...
+  source         => "https://github.com/meteor/simple-todos.git",  # URL to checkout your application source
+  app_source_dir => "/home/vagrant/simple-todos",  # temp directory to check out too, or where you put the application source.
 }
 ```
 
