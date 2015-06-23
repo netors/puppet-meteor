@@ -1,0 +1,4 @@
+modules/
+Puppetfile
+Puppetfile.lock
+scratch/
