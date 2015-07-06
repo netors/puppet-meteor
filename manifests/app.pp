@@ -53,7 +53,7 @@ class meteor::app (
           user     => $user
         }->
         exec { "convert app to bundle":
-          command     => "/usr/local/bin/meteor build ${app_dir} --directory",
+          command     => "/usr/local/bin/meteor build ${app_dir} --directory --server=${app_root_url}",
           cwd         => $app_source_dir,
           environment => ["HOME=${user_home}","USER=${user}"],
           user        => $user,
