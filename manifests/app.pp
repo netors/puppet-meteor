@@ -94,7 +94,8 @@ class meteor::app (
       ensure => directory,
       group => $user,
       recurse => true,
-      purge => false
+      purge => false,
+      manage => false
     }->
     exec { "install app to pm2":
       command     => "/usr/bin/pm2 start ${app_dir}/bundle/processes.json --name ${app_name}",
