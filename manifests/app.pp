@@ -87,10 +87,15 @@ class meteor::app (
     exec { "install pm2 service":
       command     => "/usr/bin/pm2 startup -u ${user}",
       environment => ["HOME=${user_home}","USER=${user}"],
-      user        => $user,
       creates     => "/etc/init.d/pm2-init.sh",
     }->
-
+    file { "${user_home}/.pm2":
+      owner  => $user,
+      ensure => directory,
+      group => $user,
+      recurse => true,
+      purge => false
+    }->
     exec { "install app to pm2":
       command     => "/usr/bin/pm2 start ${app_dir}/bundle/processes.json --name ${app_name}",
       cwd         => "${app_dir}/bundle",
