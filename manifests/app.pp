@@ -87,6 +87,7 @@ class meteor::app (
     exec { "install pm2 service":
       command     => "/usr/bin/pm2 startup -u ${user}",
       environment => ["HOME=${user_home}","USER=${user}"],
+      exec        => $user,
       creates     => "/etc/init.d/pm2-init.sh",
     }->
 
@@ -111,7 +112,7 @@ class meteor::app (
       ensure => present,
       source => "puppet:///modules/meteor/http_upgrade.conf",
       mode   => "755",
-      owner => "www-data"
+      owner  => "www-data"
     }->
     nginx::resource::vhost { $app_vhost_name:
       proxy            => "http://${app_name}_proxy",
