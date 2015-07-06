@@ -87,7 +87,7 @@ class meteor::app (
     exec { "install pm2 service":
       command     => "/usr/bin/pm2 startup -u ${user}",
       environment => ["HOME=${user_home}","USER=${user}"],
-      exec        => $user,
+      user        => $user,
       creates     => "/etc/init.d/pm2-init.sh",
     }->
 
