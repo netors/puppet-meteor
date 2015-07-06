@@ -9,6 +9,8 @@ class meteor::app (
   $mongo_port = $meteor::params::mongo_port,
   $mongo_url = undef,
   $vcsrepo_provider = "git",
+  $vcsrepo_rev = "master",
+  $vcsrepo_ensure = latest,
   $user = $meteor::user ,
   $app_root_url = "http://localhost",
   $app_vhost_name = undef,
@@ -44,7 +46,8 @@ class meteor::app (
       ## if using source, we are going to assume git...
         package { $vcsrepo_provider: }->
         vcsrepo { $app_source_dir:
-          ensure   => present,
+          ensure   => $vcsrepo_ensure,
+          revision => $vcsrepo_rev,
           provider => $vcsrepo_provider,
           source   => $source,
           user     => $user
