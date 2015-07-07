@@ -103,7 +103,7 @@ class meteor::app (
       command     => "/usr/bin/pm2 start ${app_dir}/bundle/processes.json --name ${app_name}",
       cwd         => "${app_dir}/bundle",
       user        => $user,
-      environment => ["HOME=${user_home}","USER=${user}","METEOR_SETTINGS=${app_dir}/server/settings.json"],
+      environment => ["HOME=${user_home}","USER=${user}","METEOR_SETTINGS=${app_dir}/bundle/settings.json"],
       unless      => "/usr/bin/pm2 -m list | grep '--- ${app_name}'",
     }
   }
