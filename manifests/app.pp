@@ -120,7 +120,7 @@ class meteor::app (
       ensure => present,
       source => "puppet:///modules/meteor/http_upgrade.conf",
       mode   => "755",
-      owner  => "www-data"
+      # owner  => "www-data"
     }->
     nginx::resource::vhost { $app_vhost_name:
       proxy            => "http://${app_name}_proxy",
