@@ -22,7 +22,7 @@ class meteor::install (
   ### make sure it's owned by root and executable
   file { "/usr/share/install_meteor.sh":
     ensure => present,
-    mode   => 755,
+    mode   => "0755",
     owner  => "root",
     group  => "root"
   }->
